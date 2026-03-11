@@ -1,0 +1,309 @@
+ABSTRACT
+
+Artificial Intelligence plays a significant role in modern biomedical engineering and healthcare technologies. One promising future application is the use of nanorobots capable of navigating the human body to detect and destroy harmful cells such as cancer cells or foreign pathogens. In such scenarios, nanorobots must intelligently traverse complex biological networks such as the cardiovascular system to reach target cells efficiently.
+
+This project simulates the movement of nanorobots through a simplified representation of the human cardiovascular system using graph-based Artificial Intelligence search algorithms. The cardiovascular system is modeled as a graph where nodes represent organs or biological junctions and edges represent blood vessels connecting them. The heart acts as the starting node while a randomly selected node represents a foreign cell or cancer cell that the nanorobot must locate and attack.
+
+Various AI search techniques including uninformed search, informed search, optimization algorithms, and logical reasoning techniques are implemented and compared. These include Breadth First Search, Depth First Search, Uniform Cost Search, A* Search, Greedy Best First Search, Hill Climbing, Simulated Annealing, Genetic Algorithms, Constraint Satisfaction Problems, and First Order Logic reasoning. The algorithms simulate how nanorobots could explore the biological network, evaluate possible paths, and determine efficient routes toward the target cell.
+
+Visualization of the traversal path is performed using graph simulation tools, allowing the movement of the nanorobot through the network to be observed. This project demonstrates how classical Artificial Intelligence algorithms can be applied to model intelligent navigation in biomedical nanotechnology systems.
+
+PROBLEM DESCRIPTION
+
+Nanotechnology has the potential to revolutionize medical treatments through the use of microscopic robots capable of performing targeted medical interventions. One theoretical application involves nanorobots traveling through the bloodstream to detect and eliminate harmful cells such as cancerous cells or foreign pathogens.
+
+However, the human circulatory system is complex and highly interconnected. For a nanorobot to reach a target cell efficiently, it must determine an optimal path through this network. This problem can be modeled as a graph traversal problem in Artificial Intelligence.
+
+In this project:
+
+• The heart represents the starting point of the nanobot.
+• The blood vessels represent connections between nodes.
+• The organs or biological locations represent graph nodes.
+• The foreign or cancer cell is represented as the goal node.
+
+The task of the nanobot is to traverse the network using different Artificial Intelligence search algorithms to locate the target cell efficiently.
+
+GRAPH REPRESENTATION OF CARDIOVASCULAR SYSTEM
+
+The cardiovascular system is modeled as a directed weighted graph.
+
+Nodes represent:
+
+Heart
+
+Aorta
+
+Carotid Artery
+
+Brain
+
+Liver
+
+Kidney
+
+Intestine
+
+Other biological regions
+
+Edges represent:
+
+Blood vessel connections between organs
+
+Edge weights represent:
+
+Distance
+
+Blood flow resistance
+
+Energy cost required for nanobot movement
+
+Additionally, heuristic values are assigned to nodes to represent an estimated distance from the target cell. These heuristic values are used in informed search algorithms such as A* and Greedy Best First Search.
+
+AI ALGORITHMS USED
+
+The project implements 15 Artificial Intelligence algorithms categorized into different groups of search and optimization techniques.
+
+1. Breadth First Search (BFS)
+
+Breadth First Search is an uninformed search algorithm that explores nodes level by level. Starting from the initial node, it visits all neighboring nodes before moving to the next level. BFS guarantees that the shortest path in terms of number of edges will be found in an unweighted graph.
+
+In the context of nanorobot navigation, BFS allows the nanobot to systematically explore all nearby blood vessel paths before moving deeper into the circulatory network.
+
+Advantages:
+
+• Guarantees shortest path in unweighted graphs
+• Simple and systematic exploration
+• Complete search algorithm
+
+Disadvantages:
+
+• High memory consumption
+• Slow in very large networks
+
+2. Bi-Directional Search
+
+Bi-Directional Search performs two simultaneous searches: one forward from the start node and another backward from the goal node. The search terminates when the two searches meet.
+
+For nanorobot traversal, this approach simulates searching both from the heart and from the target cell location simultaneously.
+
+Advantages:
+
+• Reduces search space significantly
+• Faster than traditional BFS
+
+Disadvantages:
+
+• Requires knowledge of the goal node
+• More complex implementation
+
+3. Simulated Annealing
+
+Simulated Annealing is a probabilistic optimization algorithm inspired by the physical process of annealing in metallurgy. The algorithm allows occasional moves to worse solutions in order to escape local minima.
+
+In this project, simulated annealing helps the nanobot explore different possible paths through the cardiovascular network while avoiding getting stuck in suboptimal routes.
+
+Advantages:
+
+• Escapes local minima
+• Good for large optimization problems
+
+Disadvantages:
+
+• No guarantee of optimal solution
+• Performance depends on temperature schedule
+
+4. Depth First Search (DFS)
+
+Depth First Search explores a graph by moving as deep as possible along a branch before backtracking. It uses a stack structure to track nodes.
+
+For nanorobot movement, DFS simulates deep exploration through one blood vessel path before exploring alternative routes.
+
+Advantages:
+
+• Low memory usage
+• Simple implementation
+
+Disadvantages:
+
+• May get stuck exploring long paths
+• Does not guarantee shortest path
+
+5. Greedy Best First Search
+
+Greedy Best First Search is an informed search algorithm that selects the node with the smallest heuristic value. It prioritizes nodes that appear closest to the goal.
+
+In the nanobot model, heuristic values represent estimated distance to the cancer cell, guiding the robot toward promising regions.
+
+Advantages:
+
+• Fast decision making
+• Uses domain knowledge through heuristics
+
+Disadvantages:
+
+• May produce non-optimal paths
+• Highly dependent on heuristic accuracy
+
+6. Genetic Algorithm
+
+Genetic Algorithms are inspired by biological evolution. They use processes such as selection, crossover, and mutation to evolve better solutions over generations.
+
+In the nanobot simulation, different path combinations act as chromosomes, and the best path evolves through generations.
+
+Advantages:
+
+• Good for large complex search spaces
+• Highly flexible
+
+Disadvantages:
+
+• Computationally expensive
+• May require many generations to converge
+
+7. Uniform Cost Search (UCS)
+
+Uniform Cost Search expands the node with the lowest cumulative path cost. Unlike BFS, it considers edge weights while selecting paths.
+
+In the cardiovascular graph, edge weights represent movement cost through blood vessels.
+
+Advantages:
+
+• Guarantees optimal solution
+• Handles weighted graphs effectively
+
+Disadvantages:
+
+• Slower than heuristic methods
+• Requires priority queue operations
+
+8. A* Search
+
+A* Search is an informed search algorithm that combines path cost and heuristic estimates to determine the best path.
+
+The evaluation function is:
+
+f(n) = g(n) + h(n)
+
+where:
+
+g(n) = cost from start node
+h(n) = heuristic estimate to goal
+
+A* allows the nanobot to reach the target cell efficiently while minimizing traversal cost.
+
+Advantages:
+
+• Optimal and complete with proper heuristics
+• Very efficient pathfinding
+
+Disadvantages:
+
+• Requires well-designed heuristics
+• Higher memory usage
+
+9. Adversarial Search
+
+Adversarial Search is typically used in competitive environments such as game playing, where multiple agents compete to achieve their goals.
+
+In this project, adversarial search can simulate situations where harmful cells attempt to evade detection by nanorobots.
+
+Advantages:
+
+• Models competitive environments
+• Useful for strategic decision making
+
+Disadvantages:
+
+• Computationally intensive
+• Requires modeling opponent behavior
+
+10. Iterative Deepening Search
+
+Iterative Deepening Search combines the advantages of DFS and BFS by repeatedly performing depth-limited searches with increasing depth limits.
+
+Advantages:
+
+• Low memory usage
+• Guarantees completeness
+
+Disadvantages:
+
+• Repeated exploration of nodes
+
+11. Recursive Best First Search (RBFS)
+
+RBFS is a memory-efficient version of A* that recursively explores nodes based on heuristic values while keeping memory usage low.
+
+Advantages:
+
+• Memory efficient
+• Informed search technique
+
+Disadvantages:
+
+• Can re-explore nodes frequently
+
+12. Constraint Satisfaction Problem (CSP)
+
+Constraint Satisfaction Problems involve finding values for variables that satisfy a set of constraints.
+
+In the nanobot scenario, constraints could include:
+
+• limited energy
+• restricted blood flow paths
+• time limits for reaching target cells
+
+Advantages:
+
+• Flexible problem modeling
+• Suitable for complex rule systems
+
+Disadvantages:
+
+• Can be computationally expensive
+
+13. Depth Limited Search
+
+Depth Limited Search is a variation of DFS where exploration is restricted to a predefined depth.
+
+Advantages:
+
+• Prevents infinite loops
+• Reduces search space
+
+Disadvantages:
+
+• May miss deeper solutions
+
+14. Hill Climbing
+
+Hill Climbing is a local search algorithm that continuously moves toward the neighbor with the best heuristic value.
+
+Advantages:
+
+• Simple implementation
+• Fast decision making
+
+Disadvantages:
+
+• Gets stuck in local maxima
+
+15. First Order Logic (FOL)
+
+First Order Logic is a knowledge representation technique used to express logical relationships between entities.
+
+In nanobot navigation, logical rules could define:
+
+• which cells are harmful
+• when a nanobot should attack
+• when to avoid certain biological regions
+
+Advantages:
+
+• Powerful knowledge representation
+• Supports logical reasoning
+
+Disadvantages:
+
+• Complex implementation
+• Requires rule design
