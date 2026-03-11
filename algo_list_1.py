@@ -2,67 +2,74 @@ from collections import deque
 import random
 
 
-def bfs(graph,start,goal):
+def bfs(graph, start, goal):
 
-    queue=deque([(start,[start])])
-    visited=set()
+    queue = deque([[start]])
+    visited = set()
 
     while queue:
 
-        node,path=queue.popleft()
+        path = queue.popleft()
+        node = path[-1]
 
-        if node==goal:
-            print("BFS Path:", " -> ".join(path))
+        if node == goal:
+            print("BFS Path:", path)
             return path
 
-        visited.add(node)
+        if node not in visited:
 
-        for neighbor in graph[node]:
+            visited.add(node)
 
-            if neighbor not in visited:
-                queue.append((neighbor,path+[neighbor]))
+            for neighbor in graph[node]:
+                queue.append(path + [neighbor])
 
     return None
 
 
-def bidirectional_search(graph,start,goal):
+def bidirectional_search(graph, start, goal):
 
-    queue=deque([(start,[start])])
-    visited=set()
+    queue = deque([[start]])
 
     while queue:
 
-        node,path=queue.popleft()
-
-        if node==goal:
-            print("Bidirectional Path:", " -> ".join(path))
-            return path
-
-        visited.add(node)
+        path = queue.popleft()
+        node = path[-1]
 
         for neighbor in graph[node]:
 
-            if neighbor not in visited:
-                queue.append((neighbor,path+[neighbor]))
+            new_path = path + [neighbor]
+
+            if neighbor == goal:
+                print("Bidirectional Path:", new_path)
+                return new_path
+
+            queue.append(new_path)
 
     return None
 
 
-def simulated_annealing(graph,start,goal):
+def simulated_annealing(graph, start, goal):
 
-    current=start
-    path=[current]
+    current = start
+    path = [current]
+    temperature = 100
 
-    while current!=goal:
+    while temperature > 1:
 
-        neighbors=list(graph[current].keys())
+        neighbors = list(graph[current].keys())
 
         if not neighbors:
-            return None
+            break
 
-        current=random.choice(neighbors)
-        path.append(current)
+        next_node = random.choice(neighbors)
 
-    print("Simulated Annealing Path:", " -> ".join(path))
+        path.append(next_node)
+        current = next_node
+
+        if current == goal:
+            print("Goal reached using Simulated Annealing")
+            return path
+
+        temperature *= 0.9
 
     return path

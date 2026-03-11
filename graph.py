@@ -1,65 +1,40 @@
-import random
+graph = {
 
-def create_graph():
+    "Heart": {
+        "Aorta": 5,
+        "Pulmonary": 8
+    },
 
-    graph = {
+    "Aorta": {
+        "Carotid": 25,
+        "Renal": 30
+    },
 
-        "Heart": {"Aorta":2, "Coronary":1},
+    "Pulmonary": {
+        "Lungs": 12
+    },
 
-        "Aorta": {"Carotid":2, "Systemic":3},
+    "Carotid": {
+        "Brain": 15
+    },
 
-        "Carotid": {"Brain":1},
+    "Renal": {
+        "Kidney": 10
+    },
 
-        "Coronary": {"HeartWall":1},
+    "Lungs": {},
+    "Brain": {},
+    "Kidney": {}
+}
 
-        "Systemic": {"Liver":2, "Kidney":2, "Abdomen":3},
+heuristic = {
 
-        "Liver": {"HepaticVein":1},
-
-        "Kidney": {"RenalVein":1},
-
-        "Abdomen": {"Intestine":2},
-
-        "Brain": {},
-        "HeartWall": {},
-        "HepaticVein": {},
-        "RenalVein": {},
-        "Intestine": {}
-    }
-
-    return graph
-
-
-def heuristic():
-
-    return {
-
-        "Heart":4,
-        "Aorta":3,
-        "Carotid":1,
-        "Brain":0,
-
-        "Coronary":1,
-        "HeartWall":0,
-
-        "Systemic":2,
-
-        "Liver":1,
-        "Kidney":1,
-
-        "Abdomen":2,
-        "Intestine":0,
-
-        "HepaticVein":0,
-        "RenalVein":0
-    }
-
-
-def random_goal(graph, start="Heart"):
-
-    nodes=list(graph.keys())
-
-    if start in nodes:
-        nodes.remove(start)
-
-    return random.choice(nodes)
+    "Heart": 10,
+    "Aorta": 7,
+    "Pulmonary": 9,
+    "Carotid": 2,
+    "Renal": 5,
+    "Lungs": 8,
+    "Brain": 0,
+    "Kidney": 4
+}

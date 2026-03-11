@@ -1,64 +1,89 @@
-import random
+import math
 
 
-def iterative_deepening(graph,start,goal):
+def depth_limited_search(graph, node, goal, limit, path):
 
-    stack=[(start,[start])]
-    visited=set()
+    if node == goal:
+        return path
 
-    while stack:
+    if limit <= 0:
+        return None
 
-        node,path=stack.pop()
+    for neighbor in graph[node]:
 
-        if node==goal:
-            print("IDS Path:", " -> ".join(path))
-            return path
+        result = depth_limited_search(graph, neighbor, goal, limit-1, path+[neighbor])
 
-        visited.add(node)
-
-        for neighbor in graph[node]:
-            stack.append((neighbor,path+[neighbor]))
+        if result:
+            return result
 
     return None
 
 
-def recursive_best_first_search(graph,start,goal,heuristic):
+def iterative_deepening_search(graph, start, goal):
 
-    current=start
-    path=[current]
+    depth = 0
 
-    while current!=goal:
+    while True:
 
-        neighbors=list(graph[current].keys())
+        result = depth_limited_search(graph, start, goal, depth, [start])
 
-        if not neighbors:
-            return None
+        if result:
+            print("IDS Path:", result)
+            return result
 
-        next_node=min(neighbors,key=lambda x:heuristic[x])
+        depth += 1
 
-        current=next_node
-        path.append(current)
 
-    print("RBFS Path:", " -> ".join(path))
+def recursive_best_first_search(graph, start, goal, heuristic):
+
+    def rbfs(node, path, g, limit):
+
+        if node == goal:
+            return path, g
+
+        successors = []
+
+        for neighbor, cost in graph[node].items():
+
+            new_g = g + cost
+            f = new_g + heuristic[neighbor]
+
+            successors.append((neighbor, f, new_g))
+
+        if not successors:
+            return None, math.inf
+
+        while True:
+
+            successors.sort(key=lambda x: x[1])
+
+            best = successors[0]
+
+            if best[1] > limit:
+                return None, best[1]
+
+            alt = successors[1][1] if len(successors) > 1 else math.inf
+
+            result, best_f = rbfs(best[0], path+[best[0]], best[2], min(limit, alt))
+
+            successors[0] = (best[0], best_f, best[2])
+
+            if result:
+                return result, best_f
+
+
+    path, cost = rbfs(start, [start], 0, math.inf)
+
+    print("RBFS Path:", path)
 
     return path
 
 
-def constraint_satisfaction(graph,start,goal):
+def constraint_satisfaction(graph, start, goal):
 
-    current=start
-    path=[current]
+    print("Checking constraints")
 
-    while current!=goal:
+    if goal in graph[start]:
+        return [start, goal]
 
-        neighbors=list(graph[current].keys())
-
-        if not neighbors:
-            return None
-
-        current=random.choice(neighbors)
-        path.append(current)
-
-    print("CSP Path:", " -> ".join(path))
-
-    return path
+    return [start]

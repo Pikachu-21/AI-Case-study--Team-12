@@ -1,5 +1,5 @@
-from graph import create_graph, heuristic, random_goal
-import graph_visualisation as graph_visualization
+import graph as graph_env
+import graph_visualisation as visualize
 
 import algo_list_1 as s1
 import algo_list_2 as s2
@@ -7,120 +7,123 @@ import algo_list_3 as s3
 import algo_list_4 as s4
 import algo_list_5 as s5
 
-
-graph=create_graph()
-h=heuristic()
-
-start="Heart"
+graph = graph_env.graph
+heuristic = graph_env.heuristic
 
 
-def menu():
+# INPUT VALIDATION FUNCTION
+def validate_nodes(graph, start, goal):
 
-    print("\n===== NANOROBOT AI CONTROL SYSTEM =====\n")
+    start = start.strip().title()
+    goal = goal.strip().title()
 
-    print("Algorithm List 1: Kalla Aravindh")
-    print("1 BFS")
-    print("2 Bidirectional Search")
-    print("3 Simulated Annealing\n")
+    if start not in graph:
+        print(f"\nStart node '{start}' not found.")
+        print("Available nodes:", list(graph.keys()))
+        return None, None
 
-    print("Algorithm List 2: Mohammad Amman")
-    print("4 DFS")
-    print("5 Greedy Best First")
-    print("6 Genetic Algorithm\n")
+    if goal not in graph:
+        print(f"\nGoal node '{goal}' not found.")
+        print("Available nodes:", list(graph.keys()))
+        return None, None
 
-    print("Algorithm List 3: Madduru Vaishnavi")
-    print("7 Uniform Cost Search")
-    print("8 A* Search")
-    print("9 Adversarial Search\n")
+    if start == goal:
+        print("\nStart and Goal nodes cannot be the same.")
+        return None, None
 
-    print("Algorithm List 4: Rentapalli Saahi")
-    print("10 Iterative Deepening")
-    print("11 Recursive Best First Search")
-    print("12 Constraint Satisfaction\n")
-
-    print("Algorithm List 5: Lonja Hemaanvi")
-    print("13 Depth Limited Search")
-    print("14 Hill Climbing")
-    print("15 First Order Logic\n")
-
-    print("0 Exit")
+    return start, goal
 
 
 while True:
 
-    menu()
+    print("\nAlgorithm list, student wise:")
 
-    try:
+    print("1  BFS")
+    print("2  Bidirectional Search")
+    print("3  Simulated Annealing")
+    print("4  DFS")
+    print("5  Greedy Best First Search")
+    print("6  Genetic Algorithm")
+    print("7  Uniform Cost Search")
+    print("8  A* Search")
+    print("9  Adversarial Search")
+    print("10 Iterative Deepening Search")
+    print("11 Recursive Best First Search")
+    print("12 Constraint Satisfaction Problem")
+    print("13 Depth Limited Search")
+    print("14 Hill Climbing")
+    print("15 First Order Logic")
+    print("16 Exit")
 
-        choice=int(input("Enter choice: "))
+    choice = input("\nEnter choice: ")
 
-        if choice==0:
-            break
+    if choice == "16":
+        print("Exiting program...")
+        break
 
-        goal=random_goal(graph,start)
+    print("\nAvailable Nodes:", ", ".join(graph.keys()))
 
-        print("\n⚠ Foreign cell detected at:",goal)
+    start = input("Enter start node: ")
+    goal = input("Enter goal node: ")
 
-        path=None
+    start, goal = validate_nodes(graph, start, goal)
 
-        if choice==1:
-            path=s1.bfs(graph,start,goal)
+    if start is None:
+        continue
 
-        elif choice==2:
-            path=s1.bidirectional_search(graph,start,goal)
+    path = None
 
-        elif choice==3:
-            path=s1.simulated_annealing(graph,start,goal)
+    if choice == "1":
+        path = s1.bfs(graph, start, goal)
 
-        elif choice==4:
-            path=s2.dfs(graph,start,goal)
+    elif choice == "2":
+        path = s1.bidirectional_search(graph, start, goal)
 
-        elif choice==5:
-            path=s2.greedy_best_first_search(graph,start,goal,h)
+    elif choice == "3":
+        path = s1.simulated_annealing(graph, start, goal)
 
-        elif choice==6:
-            path=s2.genetic_algorithm(graph,start,goal)
+    elif choice == "4":
+        path = s2.dfs(graph, start, goal)
 
-        elif choice==7:
-            path=s3.uniform_cost_search(graph,start,goal)
+    elif choice == "5":
+        path = s2.greedy_best_first(graph, start, goal, heuristic)
 
-        elif choice==8:
-            path=s3.a_star_search(graph,start,goal,h)
+    elif choice == "6":
+        path = s2.genetic_algorithm(graph, start, goal)
 
-        elif choice==9:
-            path=s3.adversarial_search(graph,start,goal)
+    elif choice == "7":
+        path = s3.uniform_cost_search(graph, start, goal)
 
-        elif choice==10:
-            path=s4.iterative_deepening(graph,start,goal)
+    elif choice == "8":
+        path = s3.a_star(graph, start, goal, heuristic)
 
-        elif choice==11:
-            path=s4.recursive_best_first_search(graph,start,goal,h)
+    elif choice == "9":
+        path = s3.adversarial_search(graph, start, goal, heuristic)
 
-        elif choice==12:
-            path=s4.constraint_satisfaction(graph,start,goal)
+    elif choice == "10":
+        path = s4.iterative_deepening_search(graph, start, goal)
 
-        elif choice==13:
-            path=s5.depth_limited_search(graph,start,goal)
+    elif choice == "11":
+        path = s4.recursive_best_first_search(graph, start, goal, heuristic)
 
-        elif choice==14:
-            path=s5.hill_climbing(graph,start,goal,h)
+    elif choice == "12":
+        path = s4.constraint_satisfaction(graph, start, goal)
 
-        elif choice==15:
-            path=s5.first_order_logic(graph,start,goal)
+    elif choice == "13":
+        path = s5.depth_limited_search(graph, start, goal, 3)
 
-        else:
-            print("Invalid choice")
-            continue
+    elif choice == "14":
+        path = s5.hill_climbing(graph, start, goal, heuristic)
 
-        if path:
+    elif choice == "15":
+        path = s5.first_order_logic(graph, start, goal)
 
-            sim=input("\nSimulate traversal? (y/n): ")
+    else:
+        print("\nInvalid choice. Please select a valid option.")
+        continue
 
-            if sim.lower()=="y":
-                graph_visualization.animate_traversal(graph,path)
+    if path:
+        visualize.visualize_traversal(graph, path)
 
-        else:
-            print("Nanobot could not reach target.")
-
-    except:
-        print("Invalid input")
+    else:
+        print("\nNo traversal path returned by the algorithm.")

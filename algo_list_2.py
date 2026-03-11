@@ -1,17 +1,18 @@
 import random
 
 
-def dfs(graph,start,goal):
+def dfs(graph, start, goal):
 
-    stack=[(start,[start])]
-    visited=set()
+    stack = [[start]]
+    visited = set()
 
     while stack:
 
-        node,path=stack.pop()
+        path = stack.pop()
+        node = path[-1]
 
-        if node==goal:
-            print("DFS Path:", " -> ".join(path))
+        if node == goal:
+            print("DFS Path:", path)
             return path
 
         if node not in visited:
@@ -19,48 +20,39 @@ def dfs(graph,start,goal):
             visited.add(node)
 
             for neighbor in graph[node]:
-                stack.append((neighbor,path+[neighbor]))
+                stack.append(path + [neighbor])
 
     return None
 
 
-def greedy_best_first_search(graph,start,goal,heuristic):
+def greedy_best_first(graph, start, goal, heuristic):
 
-    current=start
-    path=[current]
+    open_list = [(heuristic[start], start, [start])]
 
-    while current!=goal:
+    while open_list:
 
-        neighbors=list(graph[current].keys())
+        open_list.sort()
+        h, node, path = open_list.pop(0)
 
-        if not neighbors:
-            return None
+        if node == goal:
+            print("Greedy Best First Path:", path)
+            return path
 
-        next_node=min(neighbors,key=lambda x:heuristic[x])
+        for neighbor in graph[node]:
 
-        current=next_node
-        path.append(current)
+            open_list.append((heuristic[neighbor], neighbor, path + [neighbor]))
 
-    print("Greedy Path:", " -> ".join(path))
-
-    return path
+    return None
 
 
-def genetic_algorithm(graph,start,goal):
+def genetic_algorithm(graph, start, goal):
 
-    current=start
-    path=[current]
+    nodes = list(graph.keys())
 
-    while current!=goal:
+    population = [random.sample(nodes, 4) for _ in range(5)]
 
-        neighbors=list(graph[current].keys())
+    best = population[0]
 
-        if not neighbors:
-            return None
+    print("Genetic Algorithm candidate:", best)
 
-        current=random.choice(neighbors)
-        path.append(current)
-
-    print("Genetic Algorithm Path:", " -> ".join(path))
-
-    return path
+    return best

@@ -1,66 +1,54 @@
-import random
+def depth_limited_search(graph, start, goal, limit):
 
-
-def depth_limited_search(graph,start,goal,limit=5):
-
-    stack=[(start,[start],0)]
+    stack = [(start, [start], 0)]
 
     while stack:
 
-        node,path,depth=stack.pop()
+        node, path, depth = stack.pop()
 
-        if node==goal:
-            print("DLS Path:", " -> ".join(path))
+        if node == goal:
+            print("Depth Limited Path:", path)
             return path
 
-        if depth<limit:
+        if depth < limit:
 
             for neighbor in graph[node]:
-                stack.append((neighbor,path+[neighbor],depth+1))
+                stack.append((neighbor, path+[neighbor], depth+1))
 
     return None
 
 
-def hill_climbing(graph,start,goal,heuristic):
+def hill_climbing(graph, start, goal, heuristic):
 
-    current=start
-    path=[current]
+    current = start
+    path = [current]
 
-    while current!=goal:
+    while current != goal:
 
-        neighbors=list(graph[current].keys())
+        neighbors = graph[current]
 
         if not neighbors:
-            return None
+            break
 
-        next_node=min(neighbors,key=lambda x:heuristic[x])
+        next_node = min(neighbors, key=lambda x: heuristic[x])
 
         if heuristic[next_node] >= heuristic[current]:
-            return None
+            print("Local optimum reached")
+            return path
 
-        current=next_node
+        current = next_node
         path.append(current)
 
-    print("Hill Climbing Path:", " -> ".join(path))
+    print("Hill Climbing Path:", path)
 
     return path
 
 
-def first_order_logic(graph,start,goal):
+def first_order_logic(graph, start, goal):
 
-    current=start
-    path=[current]
+    print("Applying logical inference")
 
-    while current!=goal:
+    if goal in graph[start]:
+        return [start, goal]
 
-        neighbors=list(graph[current].keys())
-
-        if not neighbors:
-            return None
-
-        current=random.choice(neighbors)
-        path.append(current)
-
-    print("FOL Path:", " -> ".join(path))
-
-    return path
+    return [start]

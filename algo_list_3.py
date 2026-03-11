@@ -1,84 +1,92 @@
 import heapq
-import random
+import math
 
 
-def uniform_cost_search(graph,start,goal):
+def uniform_cost_search(graph, start, goal):
 
-    pq=[(0,start,[start])]
-    visited=set()
+    pq = [(0, start, [start])]
+    visited = set()
 
     while pq:
 
-        cost,node,path=heapq.heappop(pq)
+        cost, node, path = heapq.heappop(pq)
 
-        if node==goal:
-            print("UCS Path:", " -> ".join(path))
-            print("Cost:",cost)
+        if node == goal:
+            print("UCS Path:", path)
             return path
 
         if node not in visited:
 
             visited.add(node)
 
-            for neighbor,weight in graph[node].items():
-
-                heapq.heappush(
-                    pq,
-                    (cost+weight,neighbor,path+[neighbor])
-                )
+            for neighbor, weight in graph[node].items():
+                heapq.heappush(pq, (cost+weight, neighbor, path+[neighbor]))
 
     return None
 
 
-def a_star_search(graph,start,goal,heuristic):
+def a_star(graph, start, goal, heuristic):
 
-    pq=[(heuristic[start],0,start,[start])]
-    visited=set()
+    pq = [(heuristic[start], 0, start, [start])]
 
     while pq:
 
-        f,cost,node,path=heapq.heappop(pq)
+        f, g, node, path = heapq.heappop(pq)
 
-        if node==goal:
-
-            print("A* Path:", " -> ".join(path))
-            print("Cost:",cost)
-
+        if node == goal:
+            print("A* Path:", path)
             return path
 
-        if node not in visited:
+        for neighbor, weight in graph[node].items():
 
-            visited.add(node)
+            new_g = g + weight
+            new_f = new_g + heuristic[neighbor]
 
-            for neighbor,weight in graph[node].items():
-
-                g=cost+weight
-                h=heuristic[neighbor]
-                f=g+h
-
-                heapq.heappush(
-                    pq,
-                    (f,g,neighbor,path+[neighbor])
-                )
+            heapq.heappush(pq, (new_f, new_g, neighbor, path+[neighbor]))
 
     return None
 
 
-def adversarial_search(graph,start,goal):
+def adversarial_search(graph, start, goal, heuristic):
 
-    current=start
-    path=[current]
+    def minimax(node, depth, maximizing):
 
-    while current!=goal:
+        if node == goal or depth == 0:
+            return heuristic[node], [node]
 
-        neighbors=list(graph[current].keys())
+        if maximizing:
 
-        if not neighbors:
-            return None
+            best = -math.inf
+            best_path = []
 
-        current=random.choice(neighbors)
-        path.append(current)
+            for neighbor in graph[node]:
 
-    print("Adversarial Path:", " -> ".join(path))
+                val, path = minimax(neighbor, depth-1, False)
+
+                if val > best:
+                    best = val
+                    best_path = [node] + path
+
+            return best, best_path
+
+        else:
+
+            best = math.inf
+            best_path = []
+
+            for neighbor in graph[node]:
+
+                val, path = minimax(neighbor, depth-1, True)
+
+                if val < best:
+                    best = val
+                    best_path = [node] + path
+
+            return best, best_path
+
+
+    score, path = minimax(start, 3, True)
+
+    print("Adversarial Path:", path)
 
     return path
