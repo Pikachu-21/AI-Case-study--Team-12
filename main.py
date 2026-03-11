@@ -12,23 +12,23 @@ heuristic = graph_env.heuristic
 
 
 # INPUT VALIDATION FUNCTION
-def validate_nodes(graph, start, goal):
+def validate_nodes(start, goal):
 
     start = start.strip().title()
     goal = goal.strip().title()
 
     if start not in graph:
-        print(f"\nStart node '{start}' not found.")
+        print(f"\nInvalid start node: {start}")
         print("Available nodes:", list(graph.keys()))
         return None, None
 
     if goal not in graph:
-        print(f"\nGoal node '{goal}' not found.")
+        print(f"\nInvalid goal node: {goal}")
         print("Available nodes:", list(graph.keys()))
         return None, None
 
     if start == goal:
-        print("\nStart and Goal nodes cannot be the same.")
+        print("\n⚠ Start and Goal cannot be the same.")
         return None, None
 
     return start, goal
@@ -70,7 +70,7 @@ while True:
     start = input("Enter start node: ")
     goal = input("Enter goal node: ")
 
-    start, goal = validate_nodes(graph, start, goal)
+    start, goal = validate_nodes(start, goal)
 
     if start is None:
         continue
